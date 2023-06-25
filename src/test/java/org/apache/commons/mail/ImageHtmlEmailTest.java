@@ -16,21 +16,9 @@
  */
 package org.apache.commons.mail;
 
-import static org.junit.Assert.*;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.mail.resolver.DataSourceClassPathResolver;
-import org.apache.commons.mail.resolver.DataSourceCompositeResolver;
-import org.apache.commons.mail.resolver.DataSourceUrlResolver;
-import org.apache.commons.mail.mocks.MockImageHtmlEmailConcrete;
-import org.apache.commons.mail.util.MimeMessageParser;
-import org.apache.commons.mail.util.MimeMessageUtils;
-import org.junit.Before;
-import org.junit.Test;
-
-import javax.activation.DataSource;
-import javax.mail.internet.MimeMessage;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +30,21 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.mail.mocks.MockImageHtmlEmailConcrete;
+import org.apache.commons.mail.resolver.DataSourceClassPathResolver;
+import org.apache.commons.mail.resolver.DataSourceCompositeResolver;
+import org.apache.commons.mail.resolver.DataSourceUrlResolver;
+import org.apache.commons.mail.util.MimeMessageParser;
+import org.apache.commons.mail.util.MimeMessageUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import jakarta.activation.DataSource;
+import jakarta.mail.internet.MimeMessage;
+
 public class ImageHtmlEmailTest extends HtmlEmailTest {
 
     private static final boolean TEST_IS_LENIENT = true;
@@ -52,7 +55,7 @@ public class ImageHtmlEmailTest extends HtmlEmailTest {
 
     private MockImageHtmlEmailConcrete email;
 
-    @Before
+    @BeforeEach
     public void setupImageHtmlEmailTest() {
         // reusable objects to be used across multiple tests
         email = new MockImageHtmlEmailConcrete();
@@ -113,7 +116,7 @@ public class ImageHtmlEmailTest extends HtmlEmailTest {
             email.setHtmlMsg(null);
             fail("Should fail here!");
         } catch (final EmailException e) {
-            assertTrue(e.getMessage(), e.getMessage().contains("Invalid message supplied"));
+            Assertions.assertTrue(e.getMessage().contains("Invalid message supplied"), e.getMessage());
         }
     }
 
@@ -129,7 +132,7 @@ public class ImageHtmlEmailTest extends HtmlEmailTest {
             email.setHtmlMsg("");
             fail("Should fail here!");
         } catch (final EmailException e) {
-            assertTrue(e.getMessage(), e.getMessage().contains("Invalid message supplied"));
+        	Assertions.assertTrue(e.getMessage().contains("Invalid message supplied"), e.getMessage());
         }
 
     }
@@ -500,8 +503,8 @@ public class ImageHtmlEmailTest extends HtmlEmailTest {
 
         @Override
         public DataSource resolve(final String resourceLocation, final boolean isLenient) throws IOException {
-            final javax.mail.util.ByteArrayDataSource ds =
-                    (javax.mail.util.ByteArrayDataSource) super.resolve(resourceLocation, isLenient);
+            final jakarta.mail.util.ByteArrayDataSource ds =
+                    (jakarta.mail.util.ByteArrayDataSource) super.resolve(resourceLocation, isLenient);
             ds.setName(null);
             return ds;
         }

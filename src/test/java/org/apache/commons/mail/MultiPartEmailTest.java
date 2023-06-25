@@ -16,7 +16,9 @@
  */
 package org.apache.commons.mail;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,32 +27,29 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.activation.FileDataSource;
-import javax.activation.URLDataSource;
-import javax.mail.internet.MimeMultipart;
-
 import org.apache.commons.mail.mocks.MockMultiPartEmailConcrete;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.easymock.EasyMock;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import jakarta.activation.FileDataSource;
+import jakarta.activation.URLDataSource;
+import jakarta.mail.internet.MimeMultipart;
 
 /**
  * JUnit test case for MultiPartEmail Class.
  *
  * @since 1.0
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest( { MockMultiPartEmailConcrete.class, URLDataSource.class })
 public class MultiPartEmailTest extends AbstractEmailTest
 {
-    /** */
+
     private MockMultiPartEmailConcrete email;
-    /** File to used to test file attachments (Must be valid) */
+
+	/** File to used to test file attachments (Must be valid) */
     private File testFile;
 
-    @Before
+    @BeforeEach
     public void setUpMultiPartEmailTest() throws Exception
     {
         // reusable objects to be used across multiple tests
@@ -231,17 +230,22 @@ public class MultiPartEmailTest extends AbstractEmailTest
         }
 
         // bad url
-        attachment = new EmailAttachment();
+        final EmailAttachment attachmentWithInvalidUrl =EasyMock.createStrictMock(EmailAttachment.class);
+        EasyMock.expect(attachmentWithInvalidUrl.getURL()).andReturn(null);
+        EasyMock.expect(attachmentWithInvalidUrl.getPath()).andReturn("___UNKNOWN_PATH___");
+        EasyMock.replay(attachmentWithInvalidUrl);
+
         try
         {
-            attachment.setURL(createInvalidURL());
-            this.email.attach(attachment);
+            this.email.attach(attachmentWithInvalidUrl);
             fail("Should have thrown an exception");
         }
         catch (final EmailException e)
         {
             assertTrue(true);
         }
+
+        EasyMock.verify(attachmentWithInvalidUrl);
 
         // bad file
         attachment = new EmailAttachment();
@@ -306,9 +310,12 @@ public class MultiPartEmailTest extends AbstractEmailTest
         }
 
         // invalid datasource
+        final URLDataSource urlDs = EasyMock.createStrictMock(URLDataSource.class);
+        EasyMock.expect(urlDs.getInputStream()).andThrow(new IOException());
+        EasyMock.replay(urlDs);
+
         try
         {
-            final URLDataSource urlDs = new URLDataSource(createInvalidURL());
             this.email.attach(urlDs, "Test Attachment", "Test Attachment Desc");
             fail("Should have thrown an exception");
         }
@@ -316,6 +323,8 @@ public class MultiPartEmailTest extends AbstractEmailTest
         {
             assertTrue(true);
         }
+
+        EasyMock.verify(urlDs);
     }
 
     @Test

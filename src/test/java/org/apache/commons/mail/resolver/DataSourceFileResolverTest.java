@@ -16,15 +16,16 @@
  */
 package org.apache.commons.mail.resolver;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.mail.DataSourceResolver;
-import org.junit.Test;
-import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * JUnit test case for DateSourceResolver.
@@ -51,7 +52,7 @@ public class DataSourceFileResolverTest extends AbstractDataSourceResolverTest
         final DataSourceResolver dataSourceResolver = new DataSourceFileResolver(new File("."), false);
         assertNotNull(dataSourceResolver.resolve("./src/test/resources/images/asf_logo_wide.gif"));
 
-        assertThrows(IOException.class, () -> dataSourceResolver.resolve("asf_logo_wide.gif"));
+        Assertions.assertThrows(IOException.class, () -> dataSourceResolver.resolve("asf_logo_wide.gif"));
     }
 
 }

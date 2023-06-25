@@ -18,6 +18,8 @@ package org.apache.commons.mail;
 
 import java.net.URL;
 
+import jakarta.mail.Part;
+
 /**
  * This class models an email attachment. Used by MultiPartEmail.
  *
@@ -26,10 +28,10 @@ import java.net.URL;
 public class EmailAttachment
 {
     /** Definition of the part being an attachment. */
-    public static final String ATTACHMENT = javax.mail.Part.ATTACHMENT;
+    public static final String ATTACHMENT = Part.ATTACHMENT;
 
     /** Definition of the part being inline. */
-    public static final String INLINE = javax.mail.Part.INLINE;
+    public static final String INLINE = Part.INLINE;
 
     /** The name of this attachment. */
     private String name = "";

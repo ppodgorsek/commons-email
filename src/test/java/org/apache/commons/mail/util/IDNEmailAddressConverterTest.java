@@ -16,11 +16,11 @@
  */
 package org.apache.commons.mail.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import javax.mail.internet.InternetAddress;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import jakarta.mail.internet.InternetAddress;
 
 public class IDNEmailAddressConverterTest {
 

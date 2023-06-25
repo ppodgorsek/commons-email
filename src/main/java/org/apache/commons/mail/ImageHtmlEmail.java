@@ -16,12 +16,13 @@
  */
 package org.apache.commons.mail;
 
-import javax.activation.DataSource;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import jakarta.activation.DataSource;
 
 /**
  * <p>Small wrapper class on top of HtmlEmail which encapsulates the required logic

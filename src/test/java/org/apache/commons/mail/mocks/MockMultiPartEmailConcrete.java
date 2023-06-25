@@ -18,10 +18,10 @@ package org.apache.commons.mail.mocks;
 
 import java.io.IOException;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-
 import org.apache.commons.mail.MultiPartEmail;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
 
 /**
  * Extension of MultiPartEmail Class

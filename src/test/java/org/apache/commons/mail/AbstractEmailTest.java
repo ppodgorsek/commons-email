@@ -16,33 +16,30 @@
  */
 package org.apache.commons.mail;
 
-import static org.easymock.EasyMock.expect;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.*;
-import static org.powermock.api.easymock.PowerMock.createMock;
-import static org.powermock.api.easymock.PowerMock.replay;
-
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
-import javax.activation.DataHandler;
-import javax.mail.Header;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.apache.commons.mail.settings.EmailConfiguration;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.subethamail.wiser.Wiser;
 import org.subethamail.wiser.WiserMessage;
+
+import jakarta.activation.DataHandler;
+import jakarta.mail.Header;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 
 /**
  * Base test case for Email test classes.
@@ -113,7 +110,7 @@ public abstract class AbstractEmailTest
     /** counter for creating a file name */
     private static int fileNameCounter;
 
-    @Before
+    @BeforeEach
     public void setUpAbstractEmailTest()
     {
         emailOutputDir = new File("target/test-emails");
@@ -123,14 +120,15 @@ public abstract class AbstractEmailTest
         }
     }
 
-    @After
+    @AfterEach
     public void tearDownEmailTest()
     {
         //stop the fake email server (if started)
         if (this.fakeMailServer != null && !isMailServerStopped(fakeMailServer))
         {
             this.fakeMailServer.stop();
-            assertTrue("Mail server didn't stop", isMailServerStopped(fakeMailServer));
+            Assertions.assertTrue(isMailServerStopped(fakeMailServer),
+            		"Mail server didn't stop");
         }
 
         this.fakeMailServer = null;
@@ -167,7 +165,8 @@ public abstract class AbstractEmailTest
     public String getMessageAsString(final int intMsgNo)
     {
         final List<?> receivedMessages = fakeMailServer.getMessages();
-        assertTrue("mail server didn't get enough messages", receivedMessages.size() >= intMsgNo);
+        Assertions.assertTrue(receivedMessages.size() >= intMsgNo,
+        		"mail server didn't get enough messages");
 
         final WiserMessage emailMessage = (WiserMessage) receivedMessages.get(intMsgNo);
 
@@ -182,7 +181,7 @@ public abstract class AbstractEmailTest
                 // ignore, since the test will fail on an empty string return
             }
         }
-        fail("Message not found");
+        Assertions.fail("Message not found");
         return "";
     }
 
@@ -201,7 +200,7 @@ public abstract class AbstractEmailTest
             this.fakeMailServer.setPort(getMailServerPort());
             this.fakeMailServer.start();
 
-            assertFalse("fake mail server didn't start", isMailServerStopped(fakeMailServer));
+            Assertions.assertFalse(isMailServerStopped(fakeMailServer), "fake mail server didn't start");
 
             final Date dtStartWait = new Date();
             while (isMailServerStopped(fakeMailServer))
@@ -217,7 +216,7 @@ public abstract class AbstractEmailTest
                 if (dtStartWait.getTime() + EmailConfiguration.TIME_OUT
                     <= new Date().getTime())
                 {
-                    fail("Mail server failed to start");
+                	Assertions.fail("Mail server failed to start");
                 }
             }
         }
@@ -245,8 +244,7 @@ public abstract class AbstractEmailTest
         final boolean boolSaveToFile)
         throws IOException
     {
-        assertTrue("mail server doesn't contain expected message",
-                mailServer.getMessages().size() == 1);
+    	Assertions.assertTrue(mailServer.getMessages().size() == 1, "mail server doesn't contain expected message");
         final WiserMessage emailMessage = mailServer.getMessages().get(0);
 
         if (boolSaveToFile)
@@ -270,29 +268,29 @@ public abstract class AbstractEmailTest
             final MimeMessage mimeMessage = emailMessage.getMimeMessage();
 
             // test subject
-            assertEquals("got wrong subject from mail",
-                    strSubject, mimeMessage.getHeader("Subject", null));
+            Assertions.assertEquals(strSubject, mimeMessage.getHeader("Subject", null),
+            		"got wrong subject from mail");
 
             //test from address
-            assertEquals("got wrong From: address from mail",
-                    fromAdd.toString(), mimeMessage.getHeader("From", null));
+            Assertions.assertEquals(fromAdd.toString(), mimeMessage.getHeader("From", null),
+            		"got wrong From: address from mail");
 
             //test to address
-            assertTrue("got wrong To: address from mail",
-                    toAdd.toString().contains(mimeMessage.getHeader("To", null)));
+            Assertions.assertTrue(toAdd.toString().contains(mimeMessage.getHeader("To", null)),
+            		"got wrong To: address from mail");
 
             //test cc address
             if (!ccAdd.isEmpty())
             {
-                assertTrue("got wrong Cc: address from mail",
-                    ccAdd.toString().contains(mimeMessage.getHeader("Cc", null)));
+            	Assertions.assertTrue(ccAdd.toString().contains(mimeMessage.getHeader("Cc", null)),
+            			"got wrong Cc: address from mail");
             }
 
             //test bcc address
             if (!bccAdd.isEmpty())
             {
-                assertTrue("got wrong Bcc: address from mail",
-                    bccAdd.toString().contains(mimeMessage.getHeader("Bcc", null)));
+            	Assertions.assertTrue(bccAdd.toString().contains(mimeMessage.getHeader("Bcc", null)),
+            			"got wrong Bcc: address from mail");
             }
         }
         catch (final MessagingException me)
@@ -351,8 +349,8 @@ public abstract class AbstractEmailTest
             emailMessageBody.substring(AbstractEmailTest.BODY_START_PAD,
                                        emailMessageBody.length()
                                        - AbstractEmailTest.BODY_END_PAD);
-        assertTrue("didn't find expected content type in message body",
-                strMessageBody.contains(strSentContent));
+        Assertions.assertTrue(strMessageBody.contains(strSentContent),
+        		"didn't find expected content type in message body");
     }
 
     /**
@@ -389,8 +387,8 @@ public abstract class AbstractEmailTest
             true);
 
         // test message content
-        assertThat("didn't find expected message content in message body",
-                getMessageBody(emailMessage), containsString(strMessage));
+        Assertions.assertTrue(getMessageBody(emailMessage).contains(strMessage),
+        		"didn't find expected message content in message body");
     }
 
     /**
@@ -520,20 +518,17 @@ public abstract class AbstractEmailTest
         return !fakeMailServer.getServer().isRunning();
     }
 
-    /**
-     * Create a mocked URL object which always throws an IOException
-     * when the openStream() method is called.
-     * <p>
-     * Several ISPs do resolve invalid URLs like {@code http://example.invalid}
-     * to some error page causing tests to fail otherwise.
-     *
-     * @return an invalid URL
-     */
-    protected URL createInvalidURL() throws Exception {
-        final URL url = createMock(URL.class);
-        expect(url.openStream()).andThrow(new IOException());
-        replay(url);
+    protected class MockURLStreamHandler extends URLStreamHandler {
 
-        return url;
+		@Override
+		protected URLConnection openConnection(URL u) throws IOException {
+			return null;
+		}
+
+		@Override
+		protected String toExternalForm(URL u) {
+			return "http://example.invalid:8888/invalid.html";
+		}
     }
+
 }

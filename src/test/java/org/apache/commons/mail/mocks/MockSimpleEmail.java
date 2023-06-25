@@ -16,9 +16,9 @@
  */
 package org.apache.commons.mail.mocks;
 
-import javax.mail.internet.InternetAddress;
-
 import org.apache.commons.mail.SimpleEmail;
+
+import jakarta.mail.internet.InternetAddress;
 
 /**
  * Extension of SimpleEmail Class
