@@ -255,12 +255,18 @@
 		<angus-mail.version>2.0.2</angus-mail.version>
 		<commons-io.version>2.13.0</commons-io.version>
 		<easymock.version>5.1.0</easymock.version>
+		<jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
 		<jakarta.mail-api.version>2.1.2</jakarta.mail-api.version>
 		<junit-jupiter.version>5.9.3</junit-jupiter.version>
 		<junit-platform-launcher.version>1.9.3</junit-platform-launcher.version>
 		<maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
 		<slf4j.version>2.0.7</slf4j.version>
 		<subethasmtp.version>4.0.0</subethasmtp.version>
+
+		<sonar.jacoco.outputDirectory>${project.build.directory}/site/jacoco</sonar.jacoco.outputDirectory>
+		<sonar.jacoco.defaultReportPath>${sonar.jacoco.outputDirectory}/jacoco.exec</sonar.jacoco.defaultReportPath>
+		<sonar.jacoco.xmlReportPaths>${sonar.jacoco.outputDirectory}/jacoco.xml</sonar.jacoco.xmlReportPaths>
+		<sonar.coverage.jacoco.xmlReportPaths>${sonar.jacoco.xmlReportPaths}</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 	<dependencies>
@@ -316,6 +322,13 @@
 		<defaultGoal>clean verify japicmp:cmp pmd:check pmd:cpd-check spotbugs:check javadoc:javadoc</defaultGoal>
 		<plugins>
 			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<configuration>
+					<excludeFilterFile>${basedir}/conf/spotbugs-exclude-filter.xml</excludeFilterFile>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
@@ -329,6 +342,7 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
 					<descriptors>
@@ -401,11 +415,30 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco-maven-plugin.version}</version>
 				<configuration>
-					<excludeFilterFile>${basedir}/conf/spotbugs-exclude-filter.xml</excludeFilterFile>
+					<append>true</append>
+					<dataFile>${sonar.jacoco.defaultReportPath}</dataFile>
+					<destFile>${sonar.jacoco.defaultReportPath}</destFile>
+					<output>file</output>
+					<outputDirectory>${sonar.jacoco.outputDirectory}</outputDirectory>
 				</configuration>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
