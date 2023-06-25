@@ -16,11 +16,12 @@
  */
 package org.apache.commons.mail;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import javax.mail.PasswordAuthentication;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import jakarta.mail.PasswordAuthentication;
 
 /**
  * JUnit test case for DefaultAuthenticator Class.

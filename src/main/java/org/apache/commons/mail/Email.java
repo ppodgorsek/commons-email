@@ -26,22 +26,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Store;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.apache.commons.mail.util.IDNEmailAddressConverter;
+
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.Store;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.internet.MimeUtility;
 
 /**
  * The base class for all email messages.  This class sets the
@@ -857,7 +858,7 @@ public abstract class Email
      * @param  aCollection collection of {@code InternetAddress} objects.
      * @return An Email.
      * @throws EmailException Indicates an invalid email address.
-     * @see javax.mail.internet.InternetAddress
+     * @see jakarta.mail.internet.InternetAddress
      * @since 1.0
      */
     public Email setTo(final Collection<InternetAddress> aCollection) throws EmailException
@@ -966,7 +967,7 @@ public abstract class Email
      * @param aCollection collection of {@code InternetAddress} objects.
      * @return An Email.
      * @throws EmailException Indicates an invalid email address.
-     * @see javax.mail.internet.InternetAddress
+     * @see jakarta.mail.internet.InternetAddress
      * @since 1.0
      */
     public Email setCc(final Collection<InternetAddress> aCollection) throws EmailException
@@ -1075,7 +1076,7 @@ public abstract class Email
      * @param  aCollection collection of {@code InternetAddress} objects
      * @return An Email.
      * @throws EmailException Indicates an invalid email address
-     * @see javax.mail.internet.InternetAddress
+     * @see jakarta.mail.internet.InternetAddress
      * @since 1.0
      */
     public Email setBcc(final Collection<InternetAddress> aCollection) throws EmailException
@@ -1154,7 +1155,7 @@ public abstract class Email
      * @param   aCollection collection of {@code InternetAddress} objects
      * @return  An Email.
      * @throws EmailException Indicates an invalid email address
-     * @see javax.mail.internet.InternetAddress
+     * @see jakarta.mail.internet.InternetAddress
      * @since 1.1
      */
     public Email setReplyTo(final Collection<InternetAddress> aCollection) throws EmailException
@@ -1785,7 +1786,7 @@ public abstract class Email
      * Sets whether the email is partially send in case of invalid addresses.
      * <p>
      * In case the mail server rejects an address as invalid, the call to {@link #send()}
-     * may throw a {@link javax.mail.SendFailedException}, even if partial send mode is enabled (emails
+     * may throw a {@link jakarta.mail.SendFailedException}, even if partial send mode is enabled (emails
      * to valid addresses will be transmitted). In case the email server does not reject
      * invalid addresses immediately, but return a bounce message, no exception will be thrown
      * by the {@link #send()} method.

@@ -16,10 +16,11 @@
  */
 package org.apache.commons.mail.resolver;
 
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import java.io.File;
 import java.io.IOException;
+
+import jakarta.activation.DataSource;
+import jakarta.activation.FileDataSource;
 
 /**
  * Creates a {@code DataSource} based on an URL. The implementation

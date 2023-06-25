@@ -16,16 +16,16 @@
  */
 package org.apache.commons.mail.resolver;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.Assert.*;
-
-import org.apache.commons.mail.DataSourceResolver;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.function.Executable;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.net.URL;
+
+import org.apache.commons.mail.DataSourceResolver;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * JUnit test case for DateSourceResolver.
@@ -38,7 +38,7 @@ public class DataSourceCompositeResolverTest extends AbstractDataSourceResolverT
     private DataSourceResolver[] dataSourceResolvers;
     private DataSourceResolver[] dataSourceResolversMissing;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         final DataSourceUrlResolver urlResolver = new DataSourceUrlResolver(new URL("https://www.apache.org"), false);
@@ -65,7 +65,7 @@ public class DataSourceCompositeResolverTest extends AbstractDataSourceResolverT
     {
         final DataSourceResolver dataSourceResolver = new DataSourceCompositeResolver(dataSourceResolversMissing, false);
 
-        assertThrows(IOException.class, () -> dataSourceResolver.resolve("./image/does-not-exist.gif"));
+        Assertions.assertThrows(IOException.class, () -> dataSourceResolver.resolve("./image/does-not-exist.gif"));
     }
 
     @Test

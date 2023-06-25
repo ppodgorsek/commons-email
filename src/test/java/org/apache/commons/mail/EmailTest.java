@@ -16,8 +16,12 @@
  */
 package org.apache.commons.mail;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -32,16 +36,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.ParseException;
-
 import org.apache.commons.mail.mocks.MockEmailConcrete;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import jakarta.mail.Message;
+import jakarta.mail.Session;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.internet.ParseException;
 
 /**
  * JUnit test case for Email Class
@@ -61,7 +66,7 @@ public class EmailTest extends AbstractEmailTest
     /** mock for testing */
     private MockEmailConcrete email;
 
-    @Before
+    @BeforeEach
     public void setUpEmailTest()
     {
         // reusable objects to be used across multiple tests
@@ -248,19 +253,19 @@ public class EmailTest extends AbstractEmailTest
     @Test
     public void testSetSmtpPortZero()
     {
-        assertThrows(IllegalArgumentException.class, () -> email.setSmtpPort(0));
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> email.setSmtpPort(0));
     }
 
     @Test
     public void testSetSmptPortNegative()
     {
-        assertThrows(IllegalArgumentException.class, () -> email.setSmtpPort(-1));
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> email.setSmtpPort(-1));
     }
 
     @Test
     public void testSetSmtpPortMinValue()
     {
-        assertThrows(IllegalArgumentException.class, () -> email.setSmtpPort(Integer.MIN_VALUE));
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> email.setSmtpPort(Integer.MIN_VALUE));
     }
 
     @Test
@@ -342,7 +347,7 @@ public class EmailTest extends AbstractEmailTest
 
     @Test
     public void testSetFromBadEncoding() {
-        assertThrows(IllegalCharsetNameException.class, () -> email.setFrom("me@home.com", "me@home.com", "bad.encoding\uc5ec\n"));
+    	Assertions.assertThrows(IllegalCharsetNameException.class, () -> email.setFrom("me@home.com", "me@home.com", "bad.encoding\uc5ec\n"));
     }
 
     @Test
@@ -443,7 +448,7 @@ public class EmailTest extends AbstractEmailTest
     @Test
     public void testAddToBadEncoding()
     {
-        assertThrows(IllegalCharsetNameException.class, () -> email.addTo("me@home.com", "me@home.com", "bad.encoding\uc5ec\n"));
+    	Assertions.assertThrows(IllegalCharsetNameException.class, () -> email.addTo("me@home.com", "me@home.com", "bad.encoding\uc5ec\n"));
     }
 
     @Test
@@ -475,13 +480,13 @@ public class EmailTest extends AbstractEmailTest
     @Test
     public void testSetToNull()
     {
-        assertThrows(EmailException.class, () -> email.setTo(null));
+    	Assertions.assertThrows(EmailException.class, () -> email.setTo(null));
     }
 
     @Test
     public void testSetToEmpty()
     {
-        assertThrows(EmailException.class, () -> email.setTo(Collections.<InternetAddress>emptyList()));
+    	Assertions.assertThrows(EmailException.class, () -> email.setTo(Collections.<InternetAddress>emptyList()));
     }
 
     @Test
@@ -579,7 +584,7 @@ public class EmailTest extends AbstractEmailTest
     @Test
     public void testAddCcBadEncoding()
     {
-        assertThrows(IllegalCharsetNameException.class, () -> email.addCc("me@home.com", "me@home.com", "bad.encoding\uc5ec\n"));
+    	Assertions.assertThrows(IllegalCharsetNameException.class, () -> email.addCc("me@home.com", "me@home.com", "bad.encoding\uc5ec\n"));
     }
 
     @Test
@@ -601,13 +606,13 @@ public class EmailTest extends AbstractEmailTest
     @Test
     public void testSetCcNull()
     {
-        assertThrows(EmailException.class, () -> email.setCc(null));
+    	Assertions.assertThrows(EmailException.class, () -> email.setCc(null));
     }
 
     @Test
     public void testSetCcEmpty()
     {
-        assertThrows(EmailException.class, () -> email.setCc(Collections.<InternetAddress>emptyList()));
+    	Assertions.assertThrows(EmailException.class, () -> email.setCc(Collections.<InternetAddress>emptyList()));
     }
 
     @Test
@@ -713,7 +718,7 @@ public class EmailTest extends AbstractEmailTest
     @Test
     public void testAddBccBadEncoding()
     {
-        assertThrows(IllegalCharsetNameException.class, () -> email.addBcc("me@home.com", "me@home.com", "bad.encoding\uc5ec\n"));
+    	Assertions.assertThrows(IllegalCharsetNameException.class, () -> email.addBcc("me@home.com", "me@home.com", "bad.encoding\uc5ec\n"));
     }
 
     @Test
@@ -740,13 +745,13 @@ public class EmailTest extends AbstractEmailTest
     @Test
     public void testSetBccNull()
     {
-        assertThrows(EmailException.class, () -> email.setBcc(null));
+    	Assertions.assertThrows(EmailException.class, () -> email.setBcc(null));
     }
 
     @Test
     public void testSetBccEmpty()
     {
-        assertThrows(EmailException.class, () -> email.setBcc(Collections.<InternetAddress>emptyList()));
+    	Assertions.assertThrows(EmailException.class, () -> email.setBcc(Collections.<InternetAddress>emptyList()));
     }
 
     @Test
@@ -829,7 +834,7 @@ public class EmailTest extends AbstractEmailTest
     @Test
     public void testAddReplyToBadEncoding()
     {
-        assertThrows(IllegalCharsetNameException.class, () -> email.addReplyTo("me@home.com", "me@home.com", "bad.encoding\uc5ec\n"));
+    	Assertions.assertThrows(IllegalCharsetNameException.class, () -> email.addReplyTo("me@home.com", "me@home.com", "bad.encoding\uc5ec\n"));
     }
 
     @Test
@@ -856,25 +861,25 @@ public class EmailTest extends AbstractEmailTest
     @Test
     public void testAddHeaderEmptyName()
     {
-        assertThrows(IllegalArgumentException.class, () -> email.addHeader("", "me@home.com"));
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> email.addHeader("", "me@home.com"));
     }
 
     @Test
     public void testAddHeaderNullName()
     {
-        assertThrows(IllegalArgumentException.class, () -> email.addHeader(null, "me@home.com"));
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> email.addHeader(null, "me@home.com"));
     }
 
     @Test
     public void testAddHeaderEmptyValue()
     {
-        assertThrows(IllegalArgumentException.class, () -> email.addHeader("X-Mailer", ""));
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> email.addHeader("X-Mailer", ""));
     }
 
     @Test
     public void testAddHeaderNullValue()
     {
-        assertThrows(IllegalArgumentException.class, () -> email.addHeader("X-Mailer", null));
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> email.addHeader("X-Mailer", null));
     }
 
     @Test
@@ -951,26 +956,25 @@ public class EmailTest extends AbstractEmailTest
     @Test
     public void testSetHeaderEmptyValue()
     {
-        assertThrows(IllegalArgumentException.class, () -> email.setHeaders(Collections.singletonMap("X-Mailer", "")));
-
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> email.setHeaders(Collections.singletonMap("X-Mailer", "")));
     }
 
     @Test
     public void testSetHeaderNullValue()
     {
-        assertThrows(IllegalArgumentException.class, () -> email.setHeaders(Collections.singletonMap("X-Mailer", (String) null)));
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> email.setHeaders(Collections.singletonMap("X-Mailer", (String) null)));
     }
 
     @Test
     public void testSetHeaderEmptyName()
     {
-        assertThrows(IllegalArgumentException.class, () -> email.setHeaders(Collections.singletonMap("", "me@home.com")));
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> email.setHeaders(Collections.singletonMap("", "me@home.com")));
     }
 
     @Test
     public void testSetHeaderNullName()
     {
-        assertThrows(IllegalArgumentException.class, () -> email.setHeaders(Collections.singletonMap((String) null, "me@home.com")));
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> email.setHeaders(Collections.singletonMap((String) null, "me@home.com")));
     }
 
     @Test
@@ -1005,7 +1009,7 @@ public class EmailTest extends AbstractEmailTest
 
         email = new MockEmailConcrete();
 
-        assertThrows(EmailException.class, () -> email.send());
+        Assertions.assertThrows(EmailException.class, () -> email.send());
     }
 
     @Test
@@ -1048,7 +1052,7 @@ public class EmailTest extends AbstractEmailTest
         email.setSmtpPort(getMailServerPort());
         email.addTo("me@home.com");
 
-        assertThrows(EmailException.class, () -> email.send());
+        Assertions.assertThrows(EmailException.class, () -> email.send());
     }
 
     @Test
@@ -1075,7 +1079,7 @@ public class EmailTest extends AbstractEmailTest
         email.setSmtpPort(getMailServerPort());
         email.setFrom("me@home.com");
 
-        assertThrows(EmailException.class, () -> email.send());
+        Assertions.assertThrows(EmailException.class, () -> email.send());
     }
 
     @Test
@@ -1090,7 +1094,7 @@ public class EmailTest extends AbstractEmailTest
         email.addTo(strTestMailTo);
         email.setAuthentication(null, null);
 
-        assertThrows(EmailException.class, () -> email.send());
+        Assertions.assertThrows(EmailException.class, () -> email.send());
     }
 
     @Test
@@ -1289,14 +1293,14 @@ public class EmailTest extends AbstractEmailTest
     @Test
     public void testSetNullAndEmptyBounceAddress()
     {
-        assertNull(email.setBounceAddress(null).getBounceAddress());
-        assertEquals("", email.setBounceAddress("").getBounceAddress());
+    	Assertions.assertNull(email.setBounceAddress(null).getBounceAddress());
+    	Assertions.assertEquals("", email.setBounceAddress("").getBounceAddress());
     }
 
     @Test
     public void testGetSetInvalidBounceAddress()
     {
-        assertThrows(RuntimeException.class, () -> email.setBounceAddress("invalid-bounce-address"));
+    	Assertions.assertThrows(RuntimeException.class, () -> email.setBounceAddress("invalid-bounce-address"));
     }
 
     @Test

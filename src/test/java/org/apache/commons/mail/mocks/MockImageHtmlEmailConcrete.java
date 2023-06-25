@@ -16,10 +16,11 @@
  */
 package org.apache.commons.mail.mocks;
 
+import java.io.IOException;
+
 import org.apache.commons.mail.ImageHtmlEmail;
 
-import java.io.IOException;
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 /**
  * Extension of the ImageHtmlEmail Class

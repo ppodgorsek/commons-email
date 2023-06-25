@@ -30,20 +30,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
-import javax.mail.internet.ContentType;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimePart;
-import javax.mail.internet.MimeUtility;
-import javax.mail.internet.ParseException;
-import javax.mail.util.ByteArrayDataSource;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.mail.Address;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.Part;
+import jakarta.mail.internet.ContentType;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimePart;
+import jakarta.mail.internet.MimeUtility;
+import jakarta.mail.internet.ParseException;
+import jakarta.mail.util.ByteArrayDataSource;
 
 /**
  * Parses a MimeMessage and stores the individual parts such a plain text,
@@ -100,9 +101,9 @@ public class MimeMessageParser
      * @return the 'to' recipients of the message
      * @throws Exception determining the recipients failed
      */
-    public List<javax.mail.Address> getTo() throws Exception
+    public List<Address> getTo() throws Exception
     {
-        final javax.mail.Address[] recipients = this.mimeMessage.getRecipients(Message.RecipientType.TO);
+        final Address[] recipients = this.mimeMessage.getRecipients(Message.RecipientType.TO);
         return recipients != null ? Arrays.asList(recipients) : new ArrayList<>();
     }
 
@@ -110,9 +111,9 @@ public class MimeMessageParser
      * @return the 'cc' recipients of the message
      * @throws Exception determining the recipients failed
      */
-    public List<javax.mail.Address> getCc() throws Exception
+    public List<Address> getCc() throws Exception
     {
-        final javax.mail.Address[] recipients = this.mimeMessage.getRecipients(Message.RecipientType.CC);
+        final Address[] recipients = this.mimeMessage.getRecipients(Message.RecipientType.CC);
         return recipients != null ? Arrays.asList(recipients) : new ArrayList<>();
     }
 
@@ -120,9 +121,9 @@ public class MimeMessageParser
      * @return the 'bcc' recipients of the message
      * @throws Exception determining the recipients failed
      */
-    public List<javax.mail.Address> getBcc() throws Exception
+    public List<Address> getBcc() throws Exception
     {
-        final javax.mail.Address[] recipients = this.mimeMessage.getRecipients(Message.RecipientType.BCC);
+        final Address[] recipients = this.mimeMessage.getRecipients(Message.RecipientType.BCC);
         return recipients != null ? Arrays.asList(recipients) : new ArrayList<>();
     }
 
@@ -132,7 +133,7 @@ public class MimeMessageParser
      */
     public String getFrom() throws Exception
     {
-        final javax.mail.Address[] addresses = this.mimeMessage.getFrom();
+        final Address[] addresses = this.mimeMessage.getFrom();
         if (addresses == null || addresses.length == 0)
         {
             return null;
@@ -146,7 +147,7 @@ public class MimeMessageParser
      */
     public String getReplyTo() throws Exception
     {
-        final javax.mail.Address[] addresses = this.mimeMessage.getReplyTo();
+        final Address[] addresses = this.mimeMessage.getReplyTo();
         if (addresses == null || addresses.length == 0)
         {
             return null;
