@@ -858,7 +858,7 @@ public abstract class Email
      * @param  aCollection collection of {@code InternetAddress} objects.
      * @return An Email.
      * @throws EmailException Indicates an invalid email address.
-     * @see javax.mail.internet.InternetAddress
+     * @see jakarta.mail.internet.InternetAddress
      * @since 1.0
      */
     public Email setTo(final Collection<InternetAddress> aCollection) throws EmailException
@@ -967,7 +967,7 @@ public abstract class Email
      * @param aCollection collection of {@code InternetAddress} objects.
      * @return An Email.
      * @throws EmailException Indicates an invalid email address.
-     * @see javax.mail.internet.InternetAddress
+     * @see jakarta.mail.internet.InternetAddress
      * @since 1.0
      */
     public Email setCc(final Collection<InternetAddress> aCollection) throws EmailException
@@ -1076,7 +1076,7 @@ public abstract class Email
      * @param  aCollection collection of {@code InternetAddress} objects
      * @return An Email.
      * @throws EmailException Indicates an invalid email address
-     * @see javax.mail.internet.InternetAddress
+     * @see jakarta.mail.internet.InternetAddress
      * @since 1.0
      */
     public Email setBcc(final Collection<InternetAddress> aCollection) throws EmailException
@@ -1155,7 +1155,7 @@ public abstract class Email
      * @param   aCollection collection of {@code InternetAddress} objects
      * @return  An Email.
      * @throws EmailException Indicates an invalid email address
-     * @see javax.mail.internet.InternetAddress
+     * @see jakarta.mail.internet.InternetAddress
      * @since 1.1
      */
     public Email setReplyTo(final Collection<InternetAddress> aCollection) throws EmailException
@@ -1786,7 +1786,7 @@ public abstract class Email
      * Sets whether the email is partially send in case of invalid addresses.
      * <p>
      * In case the mail server rejects an address as invalid, the call to {@link #send()}
-     * may throw a {@link javax.mail.SendFailedException}, even if partial send mode is enabled (emails
+     * may throw a {@link jakarta.mail.SendFailedException}, even if partial send mode is enabled (emails
      * to valid addresses will be transmitted). In case the email server does not reject
      * invalid addresses immediately, but return a bounce message, no exception will be thrown
      * by the {@link #send()} method.

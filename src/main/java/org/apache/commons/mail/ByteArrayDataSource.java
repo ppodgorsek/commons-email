@@ -39,7 +39,7 @@ import jakarta.activation.DataSource;
  * and it is recommended to do so.
  *
  * @since 1.0
- * @deprecated since 1.4, use {@link javax.mail.util.ByteArrayDataSource} instead
+ * @deprecated since 1.4, use {@link jakarta.mail.util.ByteArrayDataSource} instead
  */
 @Deprecated
 public class ByteArrayDataSource implements DataSource

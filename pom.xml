@@ -259,6 +259,7 @@
 		<jakarta.mail-api.version>2.1.2</jakarta.mail-api.version>
 		<junit-jupiter.version>5.9.3</junit-jupiter.version>
 		<junit-platform-launcher.version>1.9.3</junit-platform-launcher.version>
+		<maven-release-plugin.version>3.0.1</maven-release-plugin.version>
 		<maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
 		<slf4j.version>2.0.7</slf4j.version>
 		<subethasmtp.version>4.0.0</subethasmtp.version>
@@ -319,7 +320,7 @@
 	</dependencies>
 
 	<build>
-		<defaultGoal>clean verify japicmp:cmp pmd:check pmd:cpd-check spotbugs:check javadoc:javadoc</defaultGoal>
+		<defaultGoal>clean verify pmd:check pmd:cpd-check spotbugs:check javadoc:javadoc</defaultGoal>
 		<plugins>
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
@@ -370,49 +371,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
+				<version>${maven-release-plugin.version}</version>
 				<configuration>
 					<mavenExecutorId>forked-path</mavenExecutorId>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-scm-publish-plugin</artifactId>
-				<configuration>
-					<ignorePathsToDelete>
-						<ignorePathToDelete>javadocs</ignorePathToDelete>
-					</ignorePathsToDelete>
-				</configuration>
-			</plugin>
-			<!-- Declaration place matters must be after gpg. -->
-			<plugin>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-release-plugin</artifactId>
-				<configuration>
-					<distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/email</distSvnStagingUrl>
-				</configuration>
-				<executions>
-					<execution>
-						<id>detatch-distributions</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>detach-distributions</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>compress-site</id>
-						<phase>site</phase>
-						<goals>
-							<goal>compress-site</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>stage-distributions</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>stage-distributions</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
